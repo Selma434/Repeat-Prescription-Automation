@@ -19,3 +19,12 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Logs
+logs/
+*.log
+
+# Flask stuff:
+instance/
+
+automation_testing.py
