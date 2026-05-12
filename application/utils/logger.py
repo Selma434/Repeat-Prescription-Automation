@@ -22,8 +22,8 @@ def _create_handlers(log_directory, log_file, level):
     """Create file and console handlers."""
     file_handler = RotatingFileHandler(
         log_directory / log_file,
-        maxBytes=1_000_000,   # ~1 MB per file
-        backupCount=3         # keep 3 old files
+        maxBytes=1_000_000,
+        backupCount=3
         )
     file_handler.setLevel(level)
 
