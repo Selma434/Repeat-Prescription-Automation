@@ -1,8 +1,10 @@
 from application import db
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 class Medication(db.Model):
+
+    __tablename__ = "medications"
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -20,21 +22,64 @@ class Medication(db.Model):
 
     active = db.Column(
         db.Boolean,
-        default=True
+        default=True,
+        nullable=False
     )
 
     created_at = db.Column(
         db.DateTime,
-        default=datetime.utcnow
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False
     )
 
     def run_out_date(self):
-        return self.last_requested + timedelta(days=self.duration_days)
+        """
+        Calculate estimated medication depletion date.
+        """
+        return self.last_requested + timedelta(
+            days=self.duration_days
+        )
 
     def days_remaining(self):
+        """
+        Calculate number of days left.
+        """
         return (
-            self.run_out_date() - datetime.utcnow()
+            self.run_out_date() - datetime.now(timezone.utc)
         ).days
 
     def running_low(self):
-        return self.days_remaining() <= 7
+        """
+        Return True if medication has
+        1–7 days remaining.
+        """
+        return 0 < self.days_remaining() <= 7
+
+    def status(self):
+        """
+        Return medication status.
+
+        OUT = overdue or empty
+        CRITICAL = extremely low
+        LOW = ≤ 7 days remaining
+        OK = enough medication
+        """
+
+        days = self.days_remaining()
+
+        if days <=0:
+            return "OUT"
+        
+        elif days <= 3:
+            return "CRITICAL"
+
+        elif days <= 7:
+            return "LOW"
+
+        return "OK"
+
+    def __repr__(self):
+        """
+        Helpful for debugging.
+        """
+        return f"<Medication {self.name}>"
