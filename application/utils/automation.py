@@ -124,6 +124,47 @@ except Exception as e:
 
 delay()
 
+
+
+
+# ==== SELECT MEDICATION ====
+medication_names = [
+    "Resource ThickenUp Clear powder",
+    "Baclofen 10mg tablets",
+    "Trazodone 150mg tablets"
+    ]
+
+logger.info(f"Selecting medications: {medication_names}")
+
+selected = []
+
+for med in medication_names:
+    try:
+        logger.info(f"Looking for: {med}")
+
+        checkbox = wait.until(
+            EC.element_to_be_clickable((
+                By.XPATH,
+                f"//h3[contains(.,'{med}')]/ancestor::tr//input"
+            ))
+        )
+
+        delay()
+        checkbox.click()
+
+        logger.info(f"Selected: {med}")
+        selected.append(med)
+
+        delay()
+
+    except Exception:
+        logger.warning(f"Medication not found: {med}")
+
+if not selected:
+    logger.error("No medications selected.")
+    raise Exception("No medications selected.")
+
+
 if driver:
     delay()
     driver.quit()
