@@ -44,7 +44,6 @@ driver.get(URL)
 delay()
 
 # ==== LOGIN ====
-# ==== LOGIN ====
 logger.info("Logging in...")
 
 try:
@@ -76,6 +75,52 @@ try:
 except Exception as e:
     logger.error(f"Login process failed: {str(e)}")
     raise
+
+delay()
+
+# ==== NAVIGATE ====
+logger.info("Opening medication page...")
+
+try:
+    medication_menu = wait.until(
+        EC.element_to_be_clickable(
+            (By.XPATH, "//button[contains(., 'Medication')]")
+        )
+    )
+    medication_menu.click()
+
+except Exception as e:
+    logger.error("Medication button not found.")
+    raise Exception("Medication button not found.")
+
+delay()
+
+try:
+    request_medication = wait.until(
+        EC.element_to_be_clickable((
+            By.XPATH,
+            "//form[@action='Medication']//button"
+        ))
+    )
+    request_medication.click()
+
+except Exception as e:
+    logger.error("Request medication button not found.")
+    raise Exception("Request medication button not found.")
+
+try:
+    wait.until(
+        EC.visibility_of_element_located((
+            By.XPATH,
+            "//h4[contains(., 'Regular Medication')]"
+        ))
+    )
+
+    logger.info("Successfully navigated to Medication page.")
+
+except Exception as e:
+    logger.error("Medication page did not load.")
+    raise Exception("Medication page failed to load.")
 
 delay()
 
