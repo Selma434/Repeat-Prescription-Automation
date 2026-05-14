@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 from dotenv import load_dotenv
 
@@ -152,7 +153,7 @@ def request_medications(medication_names: List[str], dry_run: bool = True) -> Di
                 delay()
 
             except Exception:
-                logger.warning(f"Medication not found: {med}")
+                logger.warning(f"Failed to select medication: {med}")
 
         if not selected:
             logger.error("No medications selected.")
@@ -187,10 +188,59 @@ def request_medications(medication_names: List[str], dry_run: bool = True) -> Di
             logger.info(f"DRY RUN: Would request: {', '.join(selected)}")
             delay()
             return {"success": True, "message": f"Dry run successful: {selected}"}
+
+        # ==== FINAL SUBMIT ====
+        try:
+            final_submit = wait.until(
+                EC.element_to_be_clickable((
+                    By.XPATH,
+                    "//button[@type='submit' and normalize-space()='Request Medication']"
+                ))
+            )
+
+            delay()
+            final_submit.click()
+
+            # Wait for confirmation text after submit
+            wait.until(
+                lambda d: (
+                    "Medication Order Summary" in d.page_source
+                    and "A request was sent to the practice to prescribe"
+                    in d.page_source
+                )
+            )
+
+            logger.info(
+                f"Medication request submitted successfully: "
+                f"{', '.join(selected)}"
+            )
+
+        except Exception:
+            logger.error("Medication submission confirmation not found.")
+            raise Exception(
+                "Medication request may not have been submitted successfully."
+            )
+
+        return {
+            "success": True,
+            "dry_run": False,
+            "selected_medications": selected,
+            "message": "Medication request submitted successfully"
+        }
     
-    except Exception:
+    except TimeoutException:
+        logger.exception("Automation timed out")
+        return {
+            "success": False,
+            "message": "Automation timed out"
+        }
+
+    except Exception as e:
         logger.exception("Automation failed")
-        return {"Automation failed"}
+        return {
+            "success": False,
+            "message": str(e)
+        }
     
     finally:
         if driver:
