@@ -4,14 +4,14 @@ from datetime import datetime, timedelta, timezone
 
 class Medication(db.Model):
 
-    __tablename__ = "medications"
+    __tablename__ = "medication"
 
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String(200), nullable=False)
 
-    last_requested = db.Column(
-        db.DateTime,
+    last_issued = db.Column(
+        db.Date,
         nullable=False
     )
 
@@ -26,35 +26,30 @@ class Medication(db.Model):
         nullable=False
     )
 
-    created_at = db.Column(
-        db.DateTime,
-        default=lambda: datetime.now(timezone.utc),
-        nullable=False
-    )
-
+    @property
     def run_out_date(self):
-        """
-        Calculate estimated medication depletion date.
-        """
-        return self.last_requested + timedelta(
+        return self.last_issued + timedelta(
             days=self.duration_days
         )
 
+    @property
     def days_remaining(self):
-        """
-        Calculate number of days left.
-        """
         return (
-            self.run_out_date() - datetime.now(timezone.utc)
+            self.run_out_date -
+            datetime.now(
+                timezone.utc
+            ).date()
         ).days
 
+    @property
     def running_low(self):
         """
         Return True if medication has
         1–7 days remaining.
         """
-        return 0 < self.days_remaining() <= 7
+        return 0 < self.days_remaining <= 7
 
+    @property
     def status(self):
         """
         Return medication status.
@@ -65,7 +60,7 @@ class Medication(db.Model):
         OK = enough medication
         """
 
-        days = self.days_remaining()
+        days = self.days_remaining
 
         if days <=0:
             return "OUT"
