@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Dashboard</h1>
+        <p>Overview of active medications.</p>
+    </div>
+
+</div>
+
+
+<div class="dashboard-grid">
+
+    {% for medication in medications %}
+
+        {% if medication.active %}
+
+        <div class="medication-card">
+
+            <div class="card-header">
+
+                <h2 class="medication-title">
+                    {{ medication.name }}
+                </h2>
+
+                {% if medication.active %}
+                    <span class="active-pill">
+                        Active
+                    </span>
+                {% else %}
+                    <span class="inactive-pill">
+                        Inactive
+                    </span>
+                {% endif %}
+
+            </div>
+
+
+            <div class="medication-info">
+
+                <div class="info-row">
+                    <span class="label">
+                        Last Requested
+                    </span>
+
+                    <span class="value">
+                        {{ medication.last_issued.strftime('%d %b %Y') }}
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">
+                        Duration
+                    </span>
+
+                    <span class="value">
+                        {{ medication.duration_days }} days
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="card-actions">
+
+                <button class="request-btn">
+                    Request
+                </button>
+
+                <button class="edit-btn">
+                    Edit
+                </button>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

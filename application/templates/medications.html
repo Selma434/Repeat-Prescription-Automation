@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Medications</h1>
+        <p>Manage all medications, including inactive prescriptions.</p>
+    </div>
+
+    <div class="page-actions">
+        <button class="primary-button">
+            <i class="fa-solid fa-plus"></i>
+            Add Medication
+        </button>
+    </div>
+
+</div>
+
+
+<div class="table-card">
+
+    <table class="medications-table">
+
+        <thead>
+            <tr>
+                <th>Medication</th>
+                <th>Last Requested</th>
+                <th>Duration</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for medication in medications %}
+
+            <tr>
+
+                <td class="medication-name">
+                    {{ medication.name }}
+                </td>
+
+                <td>
+                    {{ medication.last_issued.strftime('%d %b %Y') }}
+                </td>
+
+                <td>
+                    {{ medication.duration_days }} days
+                </td>
+
+                <td>
+                    {% if medication.active %}
+                        <span class="active-pill">
+                            Active
+                        </span>
+                    {% else %}
+                        <span class="inactive-pill">
+                            Inactive
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td class="action-buttons">
+
+                    {% if medication.active %}
+                    <button class="request-btn">
+                        Request
+                    </button>
+                    {% endif %}
+
+                    <button class="edit-btn">
+                        Edit
+                    </button>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

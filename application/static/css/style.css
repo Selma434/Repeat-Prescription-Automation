@@ -1,0 +1,434 @@
+/* ==========================================
+   GLOBAL
+========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f5f6fb;
+    color: #1f2937;
+}
+
+
+/* ==========================================
+   LAYOUT
+========================================== */
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    padding: 40px;
+}
+
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+.sidebar {
+    width: 260px;
+    background: linear-gradient(
+        180deg,
+        #1e1b4b 0%,
+        #312e81 100%
+    );
+    color: white;
+    padding: 30px 20px;
+}
+
+
+/* ==========================================
+   LOGO
+========================================== */
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 50px;
+}
+
+.logo-icon {
+    width: 48px;
+    height: 48px;
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.05);
+    color: #c084fc;
+    font-size: 20px;
+}
+
+.logo-text h2 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+
+/* ==========================================
+   NAVIGATION
+========================================== */
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: 14px;
+
+    text-decoration: none;
+    color: #d1d5db;
+    font-size: 15px;
+
+    transition: 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+.nav-item.active {
+    background: #8b5cf6;
+    color: white;
+}
+
+
+/* Navigation Icons */
+
+.nav-icon {
+    width: 18px;
+    font-size: 16px;
+    color: #d8b4fe;
+}
+
+.nav-item.active .nav-icon {
+    color: white;
+}
+
+
+/* ==========================================
+   PAGE HEADER
+========================================== */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1f2937;
+    letter-spacing: -0.5px;
+}
+
+.page-header p {
+    margin-top: 6px;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #6b7280;
+}
+
+
+/* ==========================================
+   CONTENT CARDS
+========================================== */
+
+.content-card,
+.table-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.content-card {
+    padding: 30px;
+}
+
+.table-card {
+    padding: 28px;
+}
+
+.content-card h2 {
+    margin-bottom: 15px;
+    color: #111827;
+}
+
+.content-card p,
+.content-card ul {
+    color: #4b5563;
+}
+
+.content-card p,
+.content-card li {
+    margin-bottom: 15px;
+}
+
+.content-card ul {
+    padding-left: 20px;
+}
+
+.content-card li {
+    margin-bottom: 8px;
+}
+
+
+/* ==========================================
+   MEDICATIONS TABLE
+========================================== */
+
+.medications-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.medications-table thead th {
+    text-align: left;
+    padding: 18px 16px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6b7280;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.medications-table tbody td {
+    padding: 20px 16px;
+    vertical-align: middle;
+
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.medications-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.medications-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+
+/* ==========================================
+   MEDICATION INFO
+========================================== */
+
+.medication-name {
+    font-weight: 500;
+    color: #111827;
+}
+
+
+/* ==========================================
+   STATUS PILLS
+========================================== */
+
+.active-pill,
+.inactive-pill {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 14px;
+    border-radius: 999px;
+
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.active-pill {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.inactive-pill {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.page-actions,
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.primary-button,
+.request-btn,
+.edit-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 16px;
+
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+
+/* Primary Buttons */
+
+.primary-button,
+.request-btn {
+    background: #5b7fff;
+    color: white;
+}
+
+.primary-button:hover,
+.request-btn:hover {
+    background: #496cf0;
+}
+
+
+/* Secondary Buttons */
+
+.edit-btn {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.edit-btn:hover {
+    background: #e5e7eb;
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 900px) {
+
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .main-content {
+        padding: 25px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+}
+
+/* ==========================================
+   DASHBOARD GRID
+========================================== */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(320px, 1fr)
+    );
+    gap: 24px;
+}
+
+
+/* ==========================================
+   MEDICATION CARD
+========================================== */
+
+.medication-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+/* ==========================================
+   CARD HEADER
+========================================== */
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.medication-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.4;
+}
+
+
+/* ==========================================
+   CARD INFO
+========================================== */
+
+.medication-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.label {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.value {
+    font-weight: 500;
+    color: #111827;
+}
+
+
+/* ==========================================
+   CARD ACTIONS
+========================================== */
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}

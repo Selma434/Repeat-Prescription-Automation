@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Monitor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fa-regular fa-heart"></i>
+                </div>
+
+                <div class="logo-text">
+                    <h2>Prescription</h2>
+                    <h2>Monitor</h2>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+
+                <a href="/" class="nav-item">
+                    <i class="fa-solid fa-table-columns nav-icon"></i>
+                    Dashboard
+                </a>
+
+                <a href="/medications" class="nav-item">
+                    <i class="fa-solid fa-pills nav-icon"></i>
+                    Medications
+                </a>
+
+                <a href="/add-medication" class="nav-item">
+                    <i class="fa-solid fa-plus nav-icon"></i>
+                    Add Medication
+                </a>
+
+                <a href="/request-medications" class="nav-item">
+                    <i class="fa-solid fa-prescription-bottle-medical nav-icon"></i>
+                    Request Medications
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            {% block content %}
+            {% endblock %}
+
+        </main>
+
+    </div>
+
+</body>
+</html>
