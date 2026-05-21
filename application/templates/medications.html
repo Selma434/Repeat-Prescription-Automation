@@ -10,10 +10,13 @@
     </div>
 
     <div class="page-actions">
-        <button class="primary-button">
+        <a href="{{ url_for('add_medication') }}"
+        class="primary-button">
+
             <i class="fa-solid fa-plus"></i>
             Add Medication
-        </button>
+
+        </a>
     </div>
 
 </div>
@@ -97,10 +100,14 @@
                             </button>
                             {% endif %}
 
-                            <button class="dropdown-item">
+                            <a href="{{ url_for(
+                                'edit_medication',
+                                id=medication.id
+                            ) }}"
+                            class="dropdown-item">
                                 <i class="fa-solid fa-pen"></i>
                                 Edit
-                            </button>
+                            </a>
 
                             {% if medication.active %}
                             <button class="dropdown-item danger">

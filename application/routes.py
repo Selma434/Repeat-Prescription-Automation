@@ -1,10 +1,11 @@
-from flask import render_template
+from flask import render_template, redirect, url_for, request, flash
 
-from application import app
+from application import app, db
 from application.models import Medication
-
+from application.forms import AddMedicationForm, EditMedicationForm
 
 @app.route("/")
+@app.route("/dashboard")
 def index():
 
     medications = Medication.query.filter_by(
@@ -24,4 +25,76 @@ def medications():
     return render_template(
         "medications.html",
         medications=medications
+    )
+
+@app.route("/add-medication", methods=["GET", "POST"])
+def add_medication():
+
+    form = AddMedicationForm()
+
+    print("FORM SUBMITTED")
+
+    if form.validate_on_submit():
+
+        print("FORM VALIDATED")
+
+        medication = Medication(
+            name=form.name.data,
+            last_issued=form.last_issued.data,
+            duration_days=form.duration_days.data,
+            active=form.active.data
+        )
+
+        db.session.add(medication)
+        db.session.commit()
+
+        print("MEDICATION SAVED")
+
+        return redirect(
+            url_for("index")
+        )
+
+    print(form.errors)
+
+    return render_template(
+        "add_medication.html",
+        form=form
+    )
+
+@app.route("/edit-medication/<int:id>", methods=["GET", "POST"])
+def edit_medication(id):
+
+    medication = Medication.query.get_or_404(
+        id
+    )
+
+    form = EditMedicationForm(
+        obj=medication
+    )
+
+    if request.method == "GET":
+        form.active.data = medication.active
+
+    if form.validate_on_submit():
+
+        medication.name = form.name.data
+        medication.last_issued = form.last_issued.data
+        medication.duration_days = form.duration_days.data
+        medication.active = form.active.data
+
+        db.session.commit()
+
+        flash(
+            "Medication updated successfully.",
+            "success"
+        )
+
+        return redirect(
+            url_for("index")
+        )
+
+    return render_template(
+        "edit_medication.html",
+        form=form,
+        medication=medication
     )

@@ -46,12 +46,17 @@
                     Medications
                 </a>
 
-                <a href="/add-medication" class="nav-item">
+                <a href="{{ url_for('add_medication') }}"
+                    class="nav-item
+                    {% if request.endpoint ==
+                    'add_medication' %}
+                    active
+                    {% endif %}">
                     <i class="fa-solid fa-plus nav-icon"></i>
                     Add Medication
                 </a>
 
-                <a href="/request-medications" class="nav-item">
+                <a href="/request_medications" class="nav-item">
                     <i class="fa-solid fa-prescription-bottle-medical nav-icon"></i>
                     Request Medications
                 </a>
