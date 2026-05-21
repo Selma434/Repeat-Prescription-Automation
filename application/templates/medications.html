@@ -28,6 +28,8 @@
                 <th>Medication</th>
                 <th>Last Requested</th>
                 <th>Duration</th>
+                <th>Estimated Days Remaining</th>
+                <th>Status</th>
                 <th>Active</th>
                 <th>Actions</th>
             </tr>
@@ -51,6 +53,20 @@
                     {{ medication.duration_days }} days
                 </td>
 
+                <!-- Days Remaining -->
+                <td>
+                    {{ medication.days_remaining }}
+                </td>
+
+                <!-- Status -->
+                <td>
+                    <span class="status-pill
+                        {{ medication.status.lower() }}">
+                        {{ medication.status }}
+                    </span>
+                </td>
+
+                <!-- Active -->
                 <td>
                     {% if medication.active %}
                         <span class="active-pill">
@@ -63,19 +79,41 @@
                     {% endif %}
                 </td>
 
-                <td class="action-buttons">
+                <!-- Actions -->
+                <td>
 
-                    {% if medication.active %}
-                    <button class="request-btn">
-                        Request
-                    </button>
-                    {% endif %}
+                    <div class="dropdown">
 
-                    <button class="edit-btn">
-                        Edit
-                    </button>
+                        <button class="dropdown-toggle">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
 
-                </td>
+                        <div class="dropdown-menu">
+
+                            {% if medication.active %}
+                            <button class="dropdown-item">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                Request
+                            </button>
+                            {% endif %}
+
+                            <button class="dropdown-item">
+                                <i class="fa-solid fa-pen"></i>
+                                Edit
+                            </button>
+
+                            {% if medication.active %}
+                            <button class="dropdown-item danger">
+                                <i class="fa-solid fa-ban"></i>
+                                Deactivate
+                            </button>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </td> 
 
             </tr>
 

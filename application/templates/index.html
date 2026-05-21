@@ -18,7 +18,8 @@
 
         {% if medication.active %}
 
-        <div class="medication-card">
+        <div class="medication-card {{ medication.status.lower() }}">
+            <div class="status-strip"></div>
 
             <div class="card-header">
 
@@ -26,18 +27,36 @@
                     {{ medication.name }}
                 </h2>
 
-                {% if medication.active %}
-                    <span class="active-pill">
-                        Active
-                    </span>
-                {% else %}
-                    <span class="inactive-pill">
-                        Inactive
-                    </span>
-                {% endif %}
+                <div class="dropdown">
 
+                    <button class="dropdown-toggle">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu">
+
+                        {% if medication.active %}
+                        <button class="dropdown-item">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            Request
+                        </button>
+                        {% endif %}
+
+                        <button class="dropdown-item">
+                            <i class="fa-solid fa-pen"></i>
+                            Edit
+                        </button>
+
+                        {% if medication.active %}
+                        <button class="dropdown-item danger">
+                            <i class="fa-solid fa-ban"></i>
+                            Deactivate
+                        </button>
+                        {% endif %}
+
+                    </div>
+                </div>   
             </div>
-
 
             <div class="medication-info">
 
@@ -49,6 +68,7 @@
                     <span class="value">
                         {{ medication.last_issued.strftime('%d %b %Y') }}
                     </span>
+                    
                 </div>
 
                 <div class="info-row">
@@ -61,18 +81,26 @@
                     </span>
                 </div>
 
-            </div>
+                <div class="info-row">
+                    <span class="label">
+                        Days Remaining
+                    </span>
 
+                    <span class="value">
+                        {{ medication.days_remaining }}
+                    </span>
+                </div>
 
-            <div class="card-actions">
+                <div class="info-row">
+                    <span class="label">
+                        Status
+                    </span>
 
-                <button class="request-btn">
-                    Request
-                </button>
-
-                <button class="edit-btn">
-                    Edit
-                </button>
+                    <span class="status-pill
+                        {{ medication.status.lower() }}">
+                        {{ medication.status }}
+                    </span>
+                </div>
 
             </div>
 
