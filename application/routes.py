@@ -98,3 +98,73 @@ def edit_medication(id):
         form=form,
         medication=medication
     )
+
+@app.route("/deactivate-medication/<id>", methods=["POST"])
+def deactivate_medication(id):
+
+    medication = Medication.query.get_or_404(
+        id
+    )
+
+    medication.active = False
+
+    db.session.commit()
+
+    flash(
+        f"{medication.name} deactivated.",
+        "success"
+    )
+
+    return redirect(
+        url_for("medications")
+    ) 
+
+@app.route(
+    "/reactivate-medication/<int:id>",
+    methods=["POST"]
+)
+def reactivate_medication(id):
+
+    medication = Medication.query.get_or_404(
+        id
+    )
+
+    medication.active = True
+
+    db.session.commit()
+
+    flash(
+        f"{medication.name} reactivated.",
+        "success"
+    )
+
+    return redirect(
+        url_for("medications")
+    )
+
+@app.route(
+    "/delete-medication/<int:id>",
+    methods=["POST"]
+)
+def delete_medication(id):
+
+    medication = Medication.query.get_or_404(
+        id
+    )
+
+    medication_name = medication.name
+
+    db.session.delete(
+        medication
+    )
+
+    db.session.commit()
+
+    flash(
+        f"{medication_name} deleted.",
+        "success"
+    )
+
+    return redirect(
+        url_for("medications")
+    )

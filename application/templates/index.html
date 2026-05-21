@@ -29,37 +29,98 @@
 
                 <div class="dropdown">
 
-                    <button class="dropdown-toggle">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
-
-                    <div class="dropdown-menu">
-
-                        {% if medication.active %}
-                        <button class="dropdown-item">
-                            <i class="fa-solid fa-paper-plane"></i>
-                            Request
+                        <button class="dropdown-toggle">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
                         </button>
-                        {% endif %}
 
-                        <a href="{{ url_for(
-                            'edit_medication',
-                            id=medication.id
-                        ) }}"
-                        class="dropdown-item">
-                            <i class="fa-solid fa-pen"></i>
-                            Edit
-                        </a>
+                        <div class="dropdown-menu">
 
-                        {% if medication.active %}
-                        <button class="dropdown-item danger">
-                            <i class="fa-solid fa-ban"></i>
-                            Deactivate
-                        </button>
-                        {% endif %}
+                            {% if medication.active %}
+                            <button class="dropdown-item">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                Request
+                            </button>
+                            {% endif %}
 
-                    </div>
-                </div>   
+                            <a href="{{ url_for(
+                                'edit_medication',
+                                id=medication.id
+                            ) }}"
+                            class="dropdown-item">
+                                <i class="fa-solid fa-pen"></i>
+                                Edit
+                            </a>
+
+                            {% if medication.active %}
+
+                            <form method="POST"
+                                action="{{ url_for(
+                                'deactivate_medication',
+                                id=medication.id
+                                ) }}"
+
+                                onsubmit="
+                                return confirm(
+                                'Deactivate this medication?'
+                                );">
+
+                                <button
+                                    type="submit"
+                                    class="dropdown-item danger">
+
+                                    <i class="fa-solid fa-ban"></i>
+                                    Deactivate
+
+                                </button>
+
+                            </form>
+
+                            {% else %}
+
+                            <form method="POST"
+                                action="{{ url_for(
+                                'reactivate_medication',
+                                id=medication.id
+                                ) }}">
+
+                                <button
+                                    type="submit"
+                                    class="dropdown-item">
+
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                    Reactivate
+
+                                </button>
+
+                            </form>
+
+                            {% endif %}
+
+                            <form method="POST"
+                                action="{{ url_for(
+                                'delete_medication',
+                                id=medication.id
+                                ) }}"
+
+                                onsubmit="
+                                return confirm(
+                                'Delete this medication permanently?'
+                                );">
+
+                                <button
+                                    type="submit"
+                                    class="dropdown-item danger">
+
+                                    <i class="fa-solid fa-trash"></i>
+                                    Delete
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>   
             </div>
 
             <div class="medication-info">
